@@ -39,11 +39,12 @@ jobs:
 
       - name: Check for existing PR
         id: check-pr
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           EXISTING_PR=$(gh pr list --state open \
             --json number,headRefName \
-            -q '.[] | select(.headRefName | startswith("update/flake-")) | .number' \
-            2>/dev/null || echo "")
+            -q '.[] | select(.headRefName | startswith("update/flake-")) | .number')
 
           if [ -n "$EXISTING_PR" ]; then
             echo "has_existing_pr=true" >> $GITHUB_OUTPUT
