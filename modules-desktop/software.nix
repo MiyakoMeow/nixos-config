@@ -57,7 +57,7 @@
       # 常用软件（需要代理）
       bilibili
       xunlei-uos
-      wechat-latest
+      wechat-uos
 
       # VPN
       clash-verge-rev
