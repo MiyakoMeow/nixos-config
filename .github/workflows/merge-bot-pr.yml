@@ -18,6 +18,8 @@ jobs:
 
       - name: Wait for CI completion
         id: wait-for-ci
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           PR_NUMBER='${{ github.event.pull_request.number }}'
           REPO='${{ github.repository }}'
@@ -67,7 +69,7 @@ jobs:
       - name: Enable Pull Request Automerge
         if: steps.wait-for-ci.outputs.ci_status == 'passed'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           PR_NUMBER='${{ github.event.pull_request.number }}'
           echo "Enabling auto-merge for PR #$PR_NUMBER"
