@@ -52,42 +52,6 @@ jobs:
             substituters = https://miyakomeow.cachix.org/ https://nix-community.cachix.org/ https://cache.nixos.org/
             trusted-public-keys = miyakomeow.cachix.org-1:85k7pjjK1Voo+kMHJx8w3nT1rlBow3+4/M+LsAuMCRY= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
 
-      - name: Calculate cache key
-        id: cache-key
-        run: |
-          echo "key=nixos-${{ matrix.config }}-$(sha256sum flake.lock | cut -d' ' -f1)" >> $GITHUB_OUTPUT
-
-      - name: Restore uncached build
-        id: cache-restore
-        uses: actions/cache@v4
-        with:
-          path: /tmp/uncached-closure.tar.xz
-          key: ${{ steps.cache-key.outputs.key }}
-          fail-on-cache-miss: false
-
-      - name: Import uncached closure
-        if: steps.cache-restore.outputs.cache-hit == 'true'
-        run: |
-          tar -xJf /tmp/uncached-closure.tar.xz -C /
-
       - name: Build ${{ matrix.config }}
-        id: build
         run: |
-          nix build .#nixosConfigurations.${{ matrix.config }}.config.system.build.toplevel --print-build-logs 2>&1 | tee /tmp/build.log
-
-      - name: Extract and cache locally built paths
-        if: github.event_name != 'pull_request'
-        run: |
-          BUILT_PATHS=$(grep -oP '/nix/store/[[:alnum:]]+-[^ ]+(?=: building)' /tmp/build.log | sort -u)
-          if [ -n "$BUILT_PATHS" ]; then
-            echo "Caching locally built paths:"
-            echo "$BUILT_PATHS"
-            tar -cJf /tmp/uncached-closure.tar.xz -T <(echo "$BUILT_PATHS")
-          fi
-
-      - name: Save cache
-        if: github.event_name != 'pull_request'
-        uses: actions/cache@v4
-        with:
-          path: /tmp/uncached-closure.tar.xz
-          key: ${{ steps.cache-key.outputs.key }}
+          nix build .#nixosConfigurations.${{ matrix.config }}.config.system.build.toplevel --print-build-logs
