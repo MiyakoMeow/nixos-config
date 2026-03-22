@@ -89,17 +89,15 @@ jobs:
         run: |
           PR_NUMBER='${{ steps.create-pull-request.outputs.pull-request-number }}'
           echo "等待 PR #$PR_NUMBER 的 CI 检查完成..."
-          timeout 3600 bash -c '
-            while true; do
-              status=$(gh pr view '$PR_NUMBER' --json statusCheckRollup -q ".statusCheckRollup[] | select(.conclusion == null) | .state" 2>/dev/null || echo "")
-              if [ -z "$status" ]; then
-                echo "所有检查已完成"
-                break
-              fi
-              echo "等待检查完成..."
-              sleep 60
-            done
-          ' || echo "等待超时，但继续尝试合并"
+          while true; do
+            status=$(gh pr view '$PR_NUMBER' --json statusCheckRollup -q ".statusCheckRollup[] | select(.conclusion == null) | .state" 2>/dev/null || echo "")
+            if [ -z "$status" ]; then
+              echo "所有检查已完成"
+              break
+            fi
+            echo "等待检查完成..."
+            sleep 60
+          done
 
       - name: Enable Pull Request Automerge
         if: steps.create-pull-request.outputs.pull-request-operation == 'created'
