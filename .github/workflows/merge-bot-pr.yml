@@ -25,21 +25,34 @@ jobs:
           echo "等待 PR #$PR_NUMBER 的 CI 检查完成..."
 
           while true; do
-            check_json=$(gh api repos/"$REPO"/commits/"$SHA"/check-runs 2>/dev/null || echo "")
+            check_json=$(gh api repos/"$REPO"/commits/"$SHA"/check-runs)
             if [ -z "$check_json" ]; then
+              echo "API 返回空数据"
+              echo "ci_status=skip" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+
+            if ! echo "$check_json" | jq -e 'has("check_runs")' > /dev/null 2>&1; then
+              echo "API 返回异常: $check_json"
+              echo "ci_status=skip" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+
+            total=$(echo "$check_json" | jq '.check_runs | length')
+            if [ "$total" -eq 0 ]; then
               echo "没有检测到任何检查，跳过"
               echo "ci_status=skip" >> "$GITHUB_OUTPUT"
               exit 0
             fi
 
-            running=$(echo "$check_json" | jq -r '.check_runs[] | select(.status == "in_progress" or .status == "queued" or .status == "waiting" or .status == "pending" or .status == "requested") | .name' 2>/dev/null || echo "")
+            running=$(echo "$check_json" | jq -r '.check_runs[] | select(.status == "in_progress" or .status == "queued" or .status == "waiting" or .status == "pending" or .status == "requested") | .name')
             if [ -n "$running" ]; then
               echo "等待检查完成: $running"
               sleep 30
               continue
             fi
 
-            non_passed=$(echo "$check_json" | jq -r '.check_runs[] | select(.conclusion != "success" and .conclusion != "skipped") | .id' 2>/dev/null || echo "")
+            non_passed=$(echo "$check_json" | jq -r '.check_runs[] | select(.conclusion != "success" and .conclusion != "skipped") | .id')
             if [ -n "$non_passed" ]; then
               echo "检测到未通过的检查: $(echo "$check_json" | jq -r '.check_runs[] | select(.conclusion != "success" and .conclusion != "skipped") | .conclusion' | sort -u)"
               echo "ci_status=failed" >> "$GITHUB_OUTPUT"
