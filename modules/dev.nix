@@ -139,6 +139,9 @@ in
       # AI Agent Cli
       opencode
 
+      # AI工具插件
+      rtk
+
       # 构建工具
       ninja
       meson
