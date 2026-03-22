@@ -73,5 +73,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           PR_NUMBER='${{ github.event.pull_request.number }}'
+          REPO='${{ github.repository }}'
           echo "Enabling auto-merge for PR #$PR_NUMBER"
-          gh pr merge "$PR_NUMBER" --auto --squash
+          gh pr merge --repo "$REPO" "$PR_NUMBER" --auto --squash
