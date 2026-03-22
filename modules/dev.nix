@@ -139,6 +139,15 @@ in
       # AI Agent Cli
       opencode
 
+      # 构建工具
+      ninja
+      meson
+      cmake
+      gnumake
+      autoconf
+      automake
+      libtool
+
       # Rust需要
       pkg-config
 
