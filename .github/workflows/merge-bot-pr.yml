@@ -1,0 +1,38 @@
+name: "Merge Helper Bot PR"
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  merge-pr:
+    if: github.event.pull_request.user.login == 'miyakomeow-helper-bot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait 30 seconds
+        run: sleep 30
+
+      - name: Wait for CI completion
+        run: |
+          PR_NUMBER='${{ github.event.pull_request.number }}'
+          echo "等待 PR #$PR_NUMBER 的 CI 检查完成..."
+          while true; do
+            status=$(gh pr view "$PR_NUMBER" --json statusCheckRollup -q ".statusCheckRollup[] | select(.conclusion == null) | .state" 2>/dev/null || echo "")
+            if [ -z "$status" ]; then
+              echo "所有检查已完成"
+              break
+            fi
+            echo "等待检查完成..."
+            sleep 30
+          done
+
+      - name: Enable Pull Request Automerge
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUMBER='${{ github.event.pull_request.number }}'
+          echo "Enabling auto-merge for PR #$PR_NUMBER"
+          gh pr merge "$PR_NUMBER" --auto --squash
