@@ -5,6 +5,7 @@ on:
     types: [opened, synchronize, reopened]
 
 permissions:
+  checks: read
   pull-requests: write
 
 jobs:
@@ -16,13 +17,32 @@ jobs:
         run: sleep 30
 
       - name: Wait for CI completion
+        id: wait-for-ci
         run: |
           PR_NUMBER='${{ github.event.pull_request.number }}'
+          REPO='${{ github.repository }}'
+          SHA='${{ github.event.pull_request.head.sha }}'
           echo "等待 PR #$PR_NUMBER 的 CI 检查完成..."
+
           while true; do
-            status=$(gh pr view "$PR_NUMBER" --json statusCheckRollup -q ".statusCheckRollup[] | select(.conclusion == null) | .state" 2>/dev/null || echo "")
-            if [ -z "$status" ]; then
+            check_json=$(gh api repos/"$REPO"/commits/"$SHA"/check-runs 2>/dev/null || echo "")
+            if [ -z "$check_json" ]; then
+              echo "没有检测到任何检查，跳过"
+              echo "ci_status=skip" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+
+            failed=$(echo "$check_json" | jq -r '.check_runs[] | select(.conclusion == "failure" or .conclusion == "timed_out") | .id' 2>/dev/null || echo "")
+            if [ -n "$failed" ]; then
+              echo "检测到失败的检查"
+              echo "ci_status=failed" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+
+            pending=$(echo "$check_json" | jq -r '.check_runs[] | select(.conclusion == null) | .status' 2>/dev/null || echo "")
+            if [ -z "$pending" ]; then
               echo "所有检查已完成"
+              echo "ci_status=passed" >> "$GITHUB_OUTPUT"
               break
             fi
             echo "等待检查完成..."
@@ -30,6 +50,7 @@ jobs:
           done
 
       - name: Enable Pull Request Automerge
+        if: steps.wait-for-ci.outputs.ci_status == 'passed'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
