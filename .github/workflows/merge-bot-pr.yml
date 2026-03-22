@@ -47,7 +47,7 @@ jobs:
               exit 0
             fi
 
-            running=$(echo "$check_json" | jq -r '.check_runs[] | select(.status == "in_progress" or .status == "queued" or .status == "waiting" or .status == "pending" or .status == "requested") | select(.name != "merge-pr") | .name')
+            running=$(echo "$check_json" | jq -r '.check_runs[] | select(.status == "in_progress" or .status == "queued" or .status == "waiting" or .status == "pending" or .status == "requested") | select(.name != "merge-pr") | .name' | paste -sd, -)
             if [ -n "$running" ]; then
               echo "等待检查完成: $running"
               sleep 30
@@ -56,7 +56,8 @@ jobs:
 
             non_passed=$(echo "$check_json" | jq -r '.check_runs[] | select(.conclusion != "success" and .conclusion != "skipped") | .id')
             if [ -n "$non_passed" ]; then
-              echo "检测到未通过的检查: $(echo "$check_json" | jq -r '.check_runs[] | select(.conclusion != "success" and .conclusion != "skipped") | .conclusion' | sort -u)"
+              failed_types=$(echo "$check_json" | jq -r '.check_runs[] | select(.conclusion != "success" and .conclusion != "skipped") | .conclusion' | sort -u | paste -sd, -)
+              echo "检测到未通过的检查: $failed_types"
               echo "ci_status=failed" >> "$GITHUB_OUTPUT"
               exit 0
             fi
