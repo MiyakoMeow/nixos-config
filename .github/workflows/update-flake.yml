@@ -9,6 +9,10 @@ permissions:
   pull-requests: write
   issues: write
 
+concurrency:
+  group: flake-update
+  cancel-in-progress: false
+
 jobs:
   update-lockfile:
     runs-on: ubuntu-latest
@@ -37,40 +41,16 @@ jobs:
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Check for existing PR
-        id: check-pr
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          EXISTING_PR=$(gh pr list --state open \
-            --json number,headRefName \
-            -q '.[] | select(.headRefName | startswith("update/flake-")) | .number')
-
-          if [ -n "$EXISTING_PR" ]; then
-            echo "发现已存在的 PR #$EXISTING_PR"
-            echo "has_existing_pr=true" >> $GITHUB_OUTPUT
-            echo "existing_pr_number=$EXISTING_PR" >> $GITHUB_OUTPUT
-          else
-            echo "has_existing_pr=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Generate branch name
-        id: gen-branch-name
-        shell: bash
-        run: |
-          timestamp=$(date +%s)
-          printf '%s=%s\n' "branch_name" "update/flake-$timestamp" >> "$GITHUB_OUTPUT"
-
       - name: Generate GitHub App Token
+        if: steps.check-changes.outputs.changed == 'true'
         id: gen-token
         uses: tibdex/github-app-token@v2
         with:
           app_id: ${{ secrets.HELPER_BOT_APP_ID }}
           private_key: ${{ secrets.HELPER_BOT_PRIVATE_KEY }}
 
-      - name: Create Pull Request
-        if: steps.check-changes.outputs.changed == 'true' && steps.check-pr.outputs.has_existing_pr != 'true'
-        id: create-pull-request
+      - name: Create or Update Pull Request
+        if: steps.check-changes.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ steps.gen-token.outputs.token }}
@@ -78,7 +58,7 @@ jobs:
           title: "flake.lock: update"
           body: |
             由 GitHub Actions 自动更新 flake.lock
-          branch: ${{ steps.gen-branch-name.outputs.branch_name }}
+          branch: update/flake
           labels: |
             automated
             dependencies
