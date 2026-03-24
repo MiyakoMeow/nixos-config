@@ -1,2 +1,5 @@
 # Nix Shell Build
 result
+
+# Dotfiles
+/dotfiles

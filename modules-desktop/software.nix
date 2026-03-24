@@ -60,12 +60,12 @@
       wechat-uos
 
       # VPN
-      clash-verge-rev
+      #clash-verge-rev
 
       # 常用软件（暂时不可用）
       #wechat
       #wechat-uos
-      #free-download-manager
+      free-download-manager
     ];
 
   # FireFox
