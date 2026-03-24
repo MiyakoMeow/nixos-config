@@ -69,27 +69,32 @@
     fsType = "ntfs";
     options = [
       "ro"
+      "nofail"
     ];
   };
 
   fileSystems."/disk/d" = {
     device = "/dev/disk/by-partuuid/5d75ab99-cf6a-4a0f-8d60-5b09bda5fa9d";
     fsType = "ntfs";
-  };
-
-  fileSystems."/disk/e" = {
-    device = "/dev/disk/by-partuuid/f2ab730c-bef0-4a7f-8784-168bbaf4a9f1";
-    fsType = "ntfs";
+    options = [
+      "nofail"
+    ];
   };
 
   fileSystems."/disk/f" = {
     device = "/dev/disk/by-partuuid/9c5003a5-62cf-44d2-94f2-9c18041c22f1";
     fsType = "ntfs";
+    options = [
+      "nofail"
+    ];
   };
 
-  fileSystems."/disk/g" = {
+  fileSystems."/disk/e" = {
     device = "/dev/disk/by-partuuid/80636dfb-26d7-45aa-8794-34a02ec1bc0c";
     fsType = "ntfs";
+    options = [
+      "nofail"
+    ];
   };
 
   swapDevices = [ ];
