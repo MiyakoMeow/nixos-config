@@ -2,7 +2,7 @@
 {
   imports = [
     # Proxy
-    ../modules-physical/proxy-mihomo.nix
+    ../modules-physical/proxy-clash-verge.nix
   ];
 
   # Use the Grub EFI boot loader.
