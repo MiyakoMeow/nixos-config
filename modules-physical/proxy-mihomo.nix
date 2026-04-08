@@ -1,9 +1,5 @@
 { pkgs, ... }:
 {
-  imports = [
-    ./proxy.nix
-  ];
-
   environment.systemPackages = with pkgs; [
     # Webui
     metacubexd

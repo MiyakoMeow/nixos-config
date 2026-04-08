@@ -1,9 +1,5 @@
 { ... }:
 {
-  imports = [
-    ./proxy.nix
-  ];
-
   programs.clash-verge = {
     enable = true;
     tunMode = true;
