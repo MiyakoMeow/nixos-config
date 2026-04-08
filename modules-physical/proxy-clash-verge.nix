@@ -4,7 +4,7 @@
     enable = true;
     autoStart = true;
     # Mode
+    serviceMode = true;
     tunMode = true;
-    #serviceMode = true;
   };
 }
