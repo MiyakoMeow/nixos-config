@@ -40,6 +40,10 @@
       url = "github:MiyakoMeow/nur-packages";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixvim = {
+      url = "github:MiyakoMeow/nixvim-config";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # NixOS WSL
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL";
