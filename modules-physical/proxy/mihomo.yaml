@@ -60,7 +60,7 @@ dns:
     - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query
   fallback:
-    - https://doh.dns.sb/dns-query
+    - https://dns.google/dns-query
     - https://dns.twnic.tw/dns-query
     - tls://8.8.4.4:853
   fallback-filter:
@@ -85,6 +85,7 @@ sniffer:
       override-destination: true
     QUIC:
       ports: [443, 8443]
+      override-destination: true
   skip-domain:
     - "Mijia Cloud"
     - "+.push.apple.com"
