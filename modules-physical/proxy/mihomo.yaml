@@ -39,6 +39,11 @@ dns:
     - "+.msftncsi.com"
     - "dns.msftncsi.com"
     - "WORKGROUP"
+    - "+.ntp.org"
+    - "+.pool.ntp.org"
+    - "time.windows.com"
+    - "time.apple.com"
+    - "time.cloudflare.com"
   default-nameserver:
     - 114.114.114.114
     - 223.5.5.5
@@ -94,10 +99,10 @@ tun:
     - any:53
     - tcp://any:53
   device: mihomo
-  mtu: 9000
+  mtu: 1500
   strict-route: true
   gso: true
-  gso-max-size: 65536
+  gso-max-size: 32768
   udp-timeout: 300
   iproute2-table-index: 2022
   iproute2-rule-index: 9000
