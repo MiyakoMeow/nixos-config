@@ -4,7 +4,7 @@ allow-lan: true
 mode: rule
 log-level: warning
 ipv6: false
-find-process-mode: strict
+find-process-mode: off
 unified-delay: true
 tcp-concurrent: true
 
@@ -35,6 +35,10 @@ dns:
     - "ntp.*.com"
     - "time.*.com"
     - "time.*.gov"
+    - "+.msftconnecttest.com"
+    - "+.msftncsi.com"
+    - "dns.msftncsi.com"
+    - "WORKGROUP"
   default-nameserver:
     - 114.114.114.114
     - 223.5.5.5
@@ -43,7 +47,6 @@ dns:
   use-hosts: true
   use-system-hosts: true
   nameserver:
-    - system
     - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query
     - https://dns.cloudflare.com/dns-query
@@ -51,7 +54,6 @@ dns:
   proxy-server-nameserver:
     - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query
-    - https://dns.cloudflare.com/dns-query
   fallback:
     - https://doh.dns.sb/dns-query
     - https://dns.twnic.tw/dns-query
@@ -62,6 +64,8 @@ dns:
     ipcidr:
       - 240.0.0.0/4
       - 0.0.0.0/32
+      - 127.0.0.0/8
+      - 100.64.0.0/10
 
 # 域名嗅探
 # https://wiki.metacubex.one/config/sniff/
@@ -433,7 +437,7 @@ rules:
   - RULE-SET,reject_non_ip_no_drop,REJECT
   - RULE-SET,cdn_domainset,🎯 节点选择
   - RULE-SET,cdn_non_ip,🎯 节点选择
-  - RULE-SET,stream_non_ip,🇺🇸 - 自动选择
+  - RULE-SET,stream_non_ip,🎯 节点选择
   - RULE-SET,telegram_non_ip,✈️ 电报信息
   - RULE-SET,apple_cdn,DIRECT
   - RULE-SET,download_domainset,🎯 节点选择
@@ -451,7 +455,7 @@ rules:
   ### IP 类规则
   - RULE-SET,reject_ip,REJECT
   - RULE-SET,telegram_ip,✈️ 电报信息
-  - RULE-SET,stream_ip,🇺🇸 - 自动选择
+  - RULE-SET,stream_ip,🎯 节点选择
   - RULE-SET,lan_ip,DIRECT
   - RULE-SET,domestic_ip,DIRECT
   - RULE-SET,china_ip,DIRECT
