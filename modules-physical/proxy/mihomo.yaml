@@ -150,33 +150,6 @@ UrlTest:
     hidden: true,
     include-all: true,
   }
-# 自动回退 [每 300 秒一次惰性健康检查，时延超过 2 秒判定为失败，失败 3 次自动触发健康检查]
-FallBack:
-  &FallBack {
-    type: fallback,
-    url: "http://connectivitycheck.platform.hicloud.com/generate_204",
-    interval: 300,
-    lazy: true,
-    timeout: 2000,
-    disable-udp: false,
-    max-failed-times: 3,
-    hidden: true,
-    include-all: true,
-  }
-# 负载均衡 [每 300 秒一次惰性健康检查，时延超过 2 秒判定为失败，失败 3 次则自动触发健康检查]
-LoadBalance:
-  &LoadBalance {
-    type: load-balance,
-    url: "http://connectivitycheck.platform.hicloud.com/generate_204",
-    interval: 300,
-    lazy: true,
-    disable-udp: false,
-    strategy: consistent-hashing,
-    timeout: 2000,
-    max-failed-times: 3,
-    hidden: true,
-    include-all: true,
-  }
 
 # 策略组
 proxy-groups:
@@ -214,15 +187,15 @@ proxy-groups:
       type: select,
       proxies:
         [
-          🇭🇰 - Auto,
-          🇯🇵 - Auto,
-          🇰🇷 - Auto,
-          🇸🇬 - Auto,
-          🇺🇸 - Auto,
-          🇬🇧 - Auto,
-          🇫🇷 - Auto,
-          🇩🇪 - Auto,
-          🇹🇼 - Auto,
+          🇭🇰 - 自动选择,
+          🇯🇵 - 自动选择,
+          🇰🇷 - 自动选择,
+          🇸🇬 - 自动选择,
+          🇺🇸 - 自动选择,
+          🇬🇧 - 自动选择,
+          🇫🇷 - 自动选择,
+          🇩🇪 - 自动选择,
+          🇹🇼 - 自动选择,
         ],
       url: http://connectivitycheck.platform.hicloud.com/generate_204,
       icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Urltest.png,
@@ -232,73 +205,26 @@ proxy-groups:
   - {
       name: ✈️ 电报信息,
       type: select,
-      proxies: [🎯 节点选择, 🇭🇰 - Auto, 🇯🇵 - Auto, 🇸🇬 - Auto, 🇺🇸 - Auto],
+      proxies: [🎯 节点选择, 🇭🇰 - 自动选择, 🇯🇵 - 自动选择, 🇸🇬 - 自动选择, 🇺🇸 - 自动选择],
       icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Telegram.png,
     }
   - {
       name: 🤖 AIGC,
       type: select,
-      proxies: [🇺🇸 - Auto, 🎯 节点选择, 🇭🇰 - Auto, 🇯🇵 - Auto, 🇸🇬 - Auto],
+      proxies: [🇺🇸 - 自动选择, 🎯 节点选择, 🇭🇰 - 自动选择, 🇯🇵 - 自动选择, 🇸🇬 - 自动选择],
       icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/OpenAI.png,
     }
   - {
       name: 🍎 苹果服务,
       type: select,
-      proxies: [DIRECT, 🎯 节点选择, 🇭🇰 - Auto, 🇺🇸 - Auto],
+      proxies: [DIRECT, 🎯 节点选择, 🇭🇰 - 自动选择, 🇺🇸 - 自动选择],
       icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Apple.png,
     }
   - {
       name: Ⓜ️ 微软服务,
       type: select,
-      proxies: [DIRECT, 🎯 节点选择, 🇭🇰 - Auto, 🇺🇸 - Auto],
+      proxies: [DIRECT, 🎯 节点选择, 🇭🇰 - 自动选择, 🇺🇸 - 自动选择],
       icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Microsoft.png,
-    }
-
-  # Auto
-  - {
-      name: 🇭🇰 - Auto,
-      type: select,
-      proxies: [🇭🇰 - 自动选择, 🇭🇰 - 自动回退, 🇭🇰 - 负载均衡],
-    }
-  - {
-      name: 🇯🇵 - Auto,
-      type: select,
-      proxies: [🇯🇵 - 自动选择, 🇯🇵 - 自动回退, 🇯🇵 - 负载均衡],
-    }
-  - {
-      name: 🇰🇷 - Auto,
-      type: select,
-      proxies: [🇰🇷 - 自动选择, 🇰🇷 - 自动回退, 🇰🇷 - 负载均衡],
-    }
-  - {
-      name: 🇸🇬 - Auto,
-      type: select,
-      proxies: [🇸🇬 - 自动选择, 🇸🇬 - 自动回退, 🇸🇬 - 负载均衡],
-    }
-  - {
-      name: 🇺🇸 - Auto,
-      type: select,
-      proxies: [🇺🇸 - 自动选择, 🇺🇸 - 自动回退, 🇺🇸 - 负载均衡],
-    }
-  - {
-      name: 🇬🇧 - Auto,
-      type: select,
-      proxies: [🇬🇧 - 自动选择, 🇬🇧 - 自动回退, 🇬🇧 - 负载均衡],
-    }
-  - {
-      name: 🇫🇷 - Auto,
-      type: select,
-      proxies: [🇫🇷 - 自动选择, 🇫🇷 - 自动回退, 🇫🇷 - 负载均衡],
-    }
-  - {
-      name: 🇩🇪 - Auto,
-      type: select,
-      proxies: [🇩🇪 - 自动选择, 🇩🇪 - 自动回退, 🇩🇪 - 负载均衡],
-    }
-  - {
-      name: 🇹🇼 - Auto,
-      type: select,
-      proxies: [🇹🇼 - 自动选择, 🇹🇼 - 自动回退, 🇹🇼 - 负载均衡],
     }
 
   # 自动选择 - 按地区
@@ -311,28 +237,6 @@ proxy-groups:
   - { name: 🇫🇷 - 自动选择, <<: *UrlTest, filter: *FilterFR }
   - { name: 🇩🇪 - 自动选择, <<: *UrlTest, filter: *FilterDE }
   - { name: 🇹🇼 - 自动选择, <<: *UrlTest, filter: *FilterTW }
-
-  # 自动回退 - 按地区
-  - { name: 🇭🇰 - 自动回退, <<: *FallBack, filter: *FilterHK }
-  - { name: 🇯🇵 - 自动回退, <<: *FallBack, filter: *FilterJP }
-  - { name: 🇰🇷 - 自动回退, <<: *FallBack, filter: *FilterKR }
-  - { name: 🇸🇬 - 自动回退, <<: *FallBack, filter: *FilterSG }
-  - { name: 🇺🇸 - 自动回退, <<: *FallBack, filter: *FilterUS }
-  - { name: 🇬🇧 - 自动回退, <<: *FallBack, filter: *FilterUK }
-  - { name: 🇫🇷 - 自动回退, <<: *FallBack, filter: *FilterFR }
-  - { name: 🇩🇪 - 自动回退, <<: *FallBack, filter: *FilterDE }
-  - { name: 🇹🇼 - 自动回退, <<: *FallBack, filter: *FilterTW }
-
-  # 负载均衡 - 按地区
-  - { name: 🇭🇰 - 负载均衡, <<: *LoadBalance, filter: *FilterHK }
-  - { name: 🇯🇵 - 负载均衡, <<: *LoadBalance, filter: *FilterJP }
-  - { name: 🇰🇷 - 负载均衡, <<: *LoadBalance, filter: *FilterKR }
-  - { name: 🇸🇬 - 负载均衡, <<: *LoadBalance, filter: *FilterSG }
-  - { name: 🇺🇸 - 负载均衡, <<: *LoadBalance, filter: *FilterUS }
-  - { name: 🇬🇧 - 负载均衡, <<: *LoadBalance, filter: *FilterUK }
-  - { name: 🇫🇷 - 负载均衡, <<: *LoadBalance, filter: *FilterFR }
-  - { name: 🇩🇪 - 负载均衡, <<: *LoadBalance, filter: *FilterDE }
-  - { name: 🇹🇼 - 负载均衡, <<: *LoadBalance, filter: *FilterTW }
 
   # 手动选择 - 按地区
   - { name: 🇭🇰 - 手动选择, <<: *Select, filter: *FilterHK }
