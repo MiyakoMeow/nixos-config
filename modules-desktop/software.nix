@@ -58,6 +58,7 @@
       bilibili
       xunlei-uos
       wechat-uos
+      discord
 
       # VPN
       #clash-verge-rev
