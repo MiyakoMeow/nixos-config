@@ -108,7 +108,7 @@ NodeParam:
 # 订阅合集
 proxy-providers:
   Node:
-    url: "https://dash.xn--cp3a08l.com/api/v1/pq/0485e6bfcdfee924d701df0a741a635b"
+    url: "https://dash.pqjc.site/api/v1/pq/0485e6bfcdfee924d701df0a741a635b"
     <<: *NodeParam
     path: "./proxy_provider/providers.yaml"
 
