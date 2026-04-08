@@ -82,6 +82,8 @@
     ];
   };
 
+  environment.sessionVariables.MOZ_DISABLE_CONTENT_SANDBOX = "1";
+
   # Steam
   programs.steam = {
     enable = true;
