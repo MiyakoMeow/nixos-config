@@ -4,7 +4,7 @@ allow-lan: true
 mode: rule
 log-level: warning
 ipv6: false
-find-process-mode: strict
+find-process-mode: always
 unified-delay: true
 tcp-concurrent: true
 
@@ -24,7 +24,7 @@ dns:
   enable: true
   listen: 0.0.0.0:53
   ipv6: false
-  enhanced-mode: redir-host
+  enhanced-mode: fake-ip
   default-nameserver:
     - 114.114.114.114
     - 223.5.5.5
@@ -46,9 +46,9 @@ dns:
     - https://doh.dns.sb/dns-query
     - https://dns.twnic.tw/dns-query
     - tls://8.8.4.4:853
-    - https://doh.pub/dns-query
   fallback-filter:
     geoip: true
+    geoip-code: CN
     ipcidr:
       - 240.0.0.0/4
       - 0.0.0.0/32
@@ -71,7 +71,7 @@ sniffer:
 
 tun:
   enable: true
-  stack: system
+  stack: mixed
   auto-route: true
   auto-redirect: true
   auto-detect-interface: true
@@ -309,7 +309,7 @@ rule-providers:
     path: ./rule_set/sukkaw_ruleset/cdn_domainset.txt
 
   cdn_non_ip:
-    <<: *RuleSet_domain
+    <<: *RuleSet_classical
     url: https://ruleset.skk.moe/Clash/non_ip/cdn.txt
     path: ./rule_set/sukkaw_ruleset/cdn_non_ip.txt
 
@@ -369,7 +369,7 @@ rule-providers:
     url: https://ruleset.skk.moe/Clash/domainset/download.txt
     path: ./rule_set/sukkaw_ruleset/download_domainset.txt
   download_non_ip:
-    <<: *RuleSet_domain
+    <<: *RuleSet_classical
     url: https://ruleset.skk.moe/Clash/non_ip/download.txt
     path: ./rule_set/sukkaw_ruleset/download_non_ip.txt
 
