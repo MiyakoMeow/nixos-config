@@ -176,6 +176,7 @@
 
       # Editor
       helix
+      inputs.nixvim.packages.${pkgs.system}.nixvim
 
       zip
       xz

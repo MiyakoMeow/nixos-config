@@ -18,6 +18,24 @@
     },
     "flake-parts": {
       "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib"
+      },
+      "locked": {
+        "lastModified": 1775087534,
+        "narHash": "sha256-91qqW8lhL7TLwgQWijoGBbiD4t7/q75KTi8NxjVmSmA=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "3107b77cd68437b9a76194f0f7f9c55f2329ca5b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-parts_2": {
+      "inputs": {
         "nixpkgs-lib": [
           "nur",
           "nixpkgs"
@@ -74,19 +92,82 @@
         "type": "github"
       }
     },
-    "nur": {
+    "nixpkgs-lib": {
+      "locked": {
+        "lastModified": 1774748309,
+        "narHash": "sha256-+U7gF3qxzwD5TZuANzZPeJTZRHS29OFQgkQ2kiTJBIQ=",
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "rev": "333c4e0545a6da976206c74db8773a1645b5870a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "type": "github"
+      }
+    },
+    "nixvim": {
       "inputs": {
         "flake-parts": "flake-parts",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "nixvim": "nixvim_2"
+      },
+      "locked": {
+        "lastModified": 1775632125,
+        "narHash": "sha256-vSqE2nlKQggJ44aVz6GRUEPoG4Hs1KhGJdRBkaYEeKs=",
+        "owner": "MiyakoMeow",
+        "repo": "nixvim-config",
+        "rev": "1802c504b1701c56b6e0ff5fea8b058ca76a0998",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MiyakoMeow",
+        "repo": "nixvim-config",
+        "type": "github"
+      }
+    },
+    "nixvim_2": {
+      "inputs": {
+        "flake-parts": [
+          "nixvim",
+          "flake-parts"
+        ],
+        "nixpkgs": [
+          "nixvim",
+          "nixpkgs"
+        ],
+        "systems": "systems"
+      },
+      "locked": {
+        "lastModified": 1775307257,
+        "narHash": "sha256-y9hEecHH4ennFwIcw1n480YCGh73DkEmizmQnyXuvgg=",
+        "owner": "nix-community",
+        "repo": "nixvim",
+        "rev": "2e008bb941f72379d5b935d5bfe70ed8b7c793ff",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixvim",
+        "type": "github"
+      }
+    },
+    "nur": {
+      "inputs": {
+        "flake-parts": "flake-parts_2",
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1775622197,
-        "narHash": "sha256-5X1MHEFxbvg8auSVaiJgzCPN+i48G+DxYFL/4OfshyY=",
+        "lastModified": 1775631588,
+        "narHash": "sha256-9FhEstRUqSJxTgzzeC7qpIiEOLfztOKrfmITXHy3IEw=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "840ec2e346600898a57abef76f5510371c95e6df",
+        "rev": "1b1d29f8e8719c99b1729823c1c69efb5cb41774",
         "type": "github"
       },
       "original": {
@@ -102,11 +183,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775537939,
-        "narHash": "sha256-UbxynbqFg1UCOBr5qB9fgvT+E01683rWpu3RysdhnG4=",
+        "lastModified": 1775624448,
+        "narHash": "sha256-bfcVc55x+Ly3OkiJL3jBLDXhRnerzg1XFu+UdlWxqek=",
         "owner": "MiyakoMeow",
         "repo": "nur-packages",
-        "rev": "57a39d3bf4739d590b227c650f7274d00b8dd522",
+        "rev": "8f901b6d679392f2f962800d0a84808b799eaa05",
         "type": "github"
       },
       "original": {
@@ -119,8 +200,24 @@
       "inputs": {
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs",
+        "nixvim": "nixvim",
         "nur": "nur",
         "nur-miyakomeow": "nur-miyakomeow"
+      }
+    },
+    "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
       }
     }
   },
