@@ -1,12 +1,10 @@
 { pkgs, ... }:
 {
-  imports = [
-    ./proxy.nix
-  ];
-
   environment.systemPackages = with pkgs; [
     # Webui
     metacubexd
+    # 代理应用
+    tunctl
   ];
 
   # Mihomo代理设置
@@ -16,4 +14,7 @@
     webui = pkgs.metacubexd;
     configFile = ./proxy/mihomo.yaml;
   };
+
+  # 内核模块：提供tun能力
+  boot.kernelModules = [ "tun" ];
 }
