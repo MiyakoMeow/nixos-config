@@ -28,11 +28,12 @@
 
         # 数据库适配器
         psycopg2
-        mysqlclient
-        mysql-connector
         pgcli
         pglast
         #pgsanity
+
+        # API
+        openai
 
         # 其他
         openpyxl

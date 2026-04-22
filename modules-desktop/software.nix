@@ -6,7 +6,7 @@
     with pkgs.nur-miyakomeow;
     [
       # 加密工具
-      #bitwarden-desktop
+      bitwarden-desktop
       bitwarden-cli
       bitwarden-directory-connector
       bitwarden-directory-connector-cli
@@ -60,12 +60,7 @@
       wechat-uos
       discord
 
-      # VPN
-      #clash-verge-rev
-
       # 常用软件（暂时不可用）
-      #wechat
-      #wechat-uos
       free-download-manager
     ];
 
