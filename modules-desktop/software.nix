@@ -61,7 +61,7 @@
       discord
 
       # 常用软件（暂时不可用）
-      free-download-manager
+      # free-download-manager
     ];
 
   # FireFox
