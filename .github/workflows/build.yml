@@ -45,6 +45,10 @@ jobs:
             substituters = https://miyakomeow.cachix.org/ https://nix-community.cachix.org/ https://cache.nixos.org/
             trusted-public-keys = miyakomeow.cachix.org-1:85k7pjjK1Voo+kMHJx8w3nT1rlBow3+4/M+LsAuMCRY= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
 
+      - name: Build MiyakoMeowWSL
+        run: |
+          nix build .#nixosConfigurations.MiyakoMeowWSL.config.system.build.toplevel --print-build-logs
+
       - name: Build MiyakoMeowWorkStatNixOS
         run: |
           nix build .#nixosConfigurations.MiyakoMeowWorkStatNixOS.config.system.build.toplevel --print-build-logs
@@ -52,7 +56,3 @@ jobs:
       - name: Build MiyakoMeowMateBookNixOS
         run: |
           nix build .#nixosConfigurations.MiyakoMeowMateBookNixOS.config.system.build.toplevel --print-build-logs
-
-      - name: Build MiyakoMeowWSL
-        run: |
-          nix build .#nixosConfigurations.MiyakoMeowWSL.config.system.build.toplevel --print-build-logs
