@@ -12,7 +12,7 @@
     tunMode = true;
     enable = true;
     webui = pkgs.metacubexd;
-    configFile = ./proxy/mihomo.yaml;
+    configFile = ./proxy-mihomo/mihomo.yaml;
   };
 
   # 内核模块：提供tun能力
