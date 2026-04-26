@@ -17,7 +17,7 @@ jobs:
       - name: Parse substituters config
         id: subs
         run: |
-          echo "substituters=$(grep '^url = ' substituters.toml | sed 's/url = "\(.*\)"/\1/' | tr '\n' ' ')" >> $GITHUB_OUTPUT
+          echo "substituters=$(grep '^url = ' substituters.toml | grep -v '\.cn/' | sed 's/url = "\(.*\)"/\1/' | tr '\n' ' ')" >> $GITHUB_OUTPUT
           echo "trusted-public-keys=$(grep '^public-key = ' substituters.toml | sed 's/public-key = "\(.*\)"/\1/' | tr '\n' ' ')" >> $GITHUB_OUTPUT
 
       - name: Install nix
@@ -45,7 +45,7 @@ jobs:
       - name: Parse substituters config
         id: subs
         run: |
-          echo "substituters=$(grep '^url = ' substituters.toml | sed 's/url = "\(.*\)"/\1/' | tr '\n' ' ')" >> $GITHUB_OUTPUT
+          echo "substituters=$(grep '^url = ' substituters.toml | grep -v '\.cn/' | sed 's/url = "\(.*\)"/\1/' | tr '\n' ' ')" >> $GITHUB_OUTPUT
           echo "trusted-public-keys=$(grep '^public-key = ' substituters.toml | sed 's/public-key = "\(.*\)"/\1/' | tr '\n' ' ')" >> $GITHUB_OUTPUT
 
       - name: Install nix
