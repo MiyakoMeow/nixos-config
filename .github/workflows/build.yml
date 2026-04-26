@@ -27,6 +27,7 @@ jobs:
             experimental-features = nix-command flakes
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
             extra-platforms = aarch64-linux x86_64-darwin aarch64-darwin
+            accept-flake-config = false
             substituters = ${{ steps.subs.outputs.substituters }}
             trusted-public-keys = ${{ steps.subs.outputs.trusted-public-keys }}
 
@@ -54,17 +55,18 @@ jobs:
           extra_nix_config: |
             experimental-features = nix-command flakes
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+            accept-flake-config = false
             substituters = ${{ steps.subs.outputs.substituters }}
             trusted-public-keys = ${{ steps.subs.outputs.trusted-public-keys }}
 
       - name: Build MiyakoMeowWSL
         run: |
-          nix build .#nixosConfigurations.MiyakoMeowWSL.config.system.build.toplevel --accept-flake-config --print-build-logs
+          nix build .#nixosConfigurations.MiyakoMeowWSL.config.system.build.toplevel --print-build-logs
 
       - name: Build MiyakoMeowWorkStatNixOS
         run: |
-          nix build .#nixosConfigurations.MiyakoMeowWorkStatNixOS.config.system.build.toplevel --accept-flake-config --print-build-logs
+          nix build .#nixosConfigurations.MiyakoMeowWorkStatNixOS.config.system.build.toplevel --print-build-logs
 
       - name: Build MiyakoMeowMateBookNixOS
         run: |
-          nix build .#nixosConfigurations.MiyakoMeowMateBookNixOS.config.system.build.toplevel --accept-flake-config --print-build-logs
+          nix build .#nixosConfigurations.MiyakoMeowMateBookNixOS.config.system.build.toplevel --print-build-logs

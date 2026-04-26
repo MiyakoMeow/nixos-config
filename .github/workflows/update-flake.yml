@@ -32,6 +32,7 @@ jobs:
           nix_path: nixpkgs=channel:nixpkgs-unstable
           extra_nix_config: |
             experimental-features = nix-command flakes
+            accept-flake-config = false
             substituters = ${{ steps.subs.outputs.substituters }}
             trusted-public-keys = ${{ steps.subs.outputs.trusted-public-keys }}
 
