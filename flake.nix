@@ -2,6 +2,7 @@
   description = "NixOS flake config. @MiyakoMeow";
 
   # The nixConfig here only affects the flake itself, not the system configuration!
+  # NOTE: Keep in sync with substituters.toml (nixConfig does not support computed values)
   nixConfig = {
     # Override the default substituters
     substituters = [
