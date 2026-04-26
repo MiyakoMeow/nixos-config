@@ -28,7 +28,7 @@
 
         # 数据库适配器
         psycopg2
-        pgcli
+        # pgcli  # TODO: re-enable after upstream cli-helpers test issue is fixed
         pglast
         #pgsanity
 
