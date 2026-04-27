@@ -22,9 +22,16 @@ jobs:
 
       - name: Parse substituters config
         id: subs
+        shell: python
         run: |
-          echo "substituters=$(grep '^url = ' substituters.toml | grep -v '\.cn/' | sed 's/url = "\(.*\)"/\1/' | tr '\n' ' ')" >> $GITHUB_OUTPUT
-          echo "trusted-public-keys=$(grep '^public-key = ' substituters.toml | sed 's/public-key = "\(.*\)"/\1/' | tr '\n' ' ')" >> $GITHUB_OUTPUT
+          import tomllib, os
+          with open("substituters.toml", "rb") as f:
+              data = tomllib.load(f)
+          subs = [s["url"] for s in data["substituters"] if ".cn/" not in s["url"]]
+          keys = [s["public-key"] for s in data["substituters"] if "public-key" in s]
+          with open(os.environ["GITHUB_OUTPUT"], "a") as out:
+              out.write(f"substituters={' '.join(subs)}\n")
+              out.write(f"trusted-public-keys={' '.join(keys)}\n")
 
       - name: Setup Nix
         uses: cachix/install-nix-action@v31

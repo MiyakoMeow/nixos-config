@@ -16,5 +16,9 @@ url = "https://miyakomeow.cachix.org"
 public-key = "miyakomeow.cachix.org-1:85k7pjjK1Voo+kMHJx8w3nT1rlBow3+4/M+LsAuMCRY="
 
 [[substituters]]
+url = "https://cache.garnix.io"
+public-key = "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+
+[[substituters]]
 url = "https://cache.nixos.org"
 public-key = "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
