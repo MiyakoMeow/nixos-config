@@ -20,14 +20,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
+      - name: Parse substituters config
+        id: subs
+        run: |
+          echo "substituters=$(grep '^url = ' substituters.toml | grep -v '\.cn/' | sed 's/url = "\(.*\)"/\1/' | tr '\n' ' ')" >> $GITHUB_OUTPUT
+          echo "trusted-public-keys=$(grep '^public-key = ' substituters.toml | sed 's/public-key = "\(.*\)"/\1/' | tr '\n' ' ')" >> $GITHUB_OUTPUT
+
       - name: Setup Nix
         uses: cachix/install-nix-action@v31
         with:
           nix_path: nixpkgs=channel:nixpkgs-unstable
           extra_nix_config: |
             experimental-features = nix-command flakes
-            substituters = https://miyakomeow.cachix.org/ https://nix-community.cachix.org/ https://cache.nixos.org/
-            trusted-public-keys = miyakomeow.cachix.org-1:85k7pjjK1Voo+kMHJx8w3nT1rlBow3+4/M+LsAuMCRY= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
+            accept-flake-config = false
+            substituters = ${{ steps.subs.outputs.substituters }}
+            trusted-public-keys = ${{ steps.subs.outputs.trusted-public-keys }}
 
       - name: Update flake.lock
         run: nix flake update

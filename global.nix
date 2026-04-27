@@ -24,20 +24,11 @@
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   # system.stateVersion = "24.11"; # Did you read the comment?
 
-  nix.settings = {
-    substituters = [
-      "https://mirrors.ustc.edu.cn/nix-channels/store"
-      "https://mirrors.sjtug.sjtu.edu.cn/nix-channels/store"
-      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
-      "https://nix-community.cachix.org"
-      "https://miyakomeow.cachix.org"
-      "https://cache.nixos.org"
-    ];
-    trusted-public-keys = [
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "miyakomeow.cachix.org-1:85k7pjjK1Voo+kMHJx8w3nT1rlBow3+4/M+LsAuMCRY="
-      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-    ];
+  nix.settings = let
+    subs = (builtins.fromTOML (builtins.readFile ./substituters.toml)).substituters;
+  in {
+    substituters = map (s: s.url) subs;
+    trusted-public-keys = map (s: s.public-key) (builtins.filter (s: s ? public-key) subs);
     # Use Flake & Nix Commands
     experimental-features = [
       "nix-command"

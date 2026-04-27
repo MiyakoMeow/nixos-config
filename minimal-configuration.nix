@@ -51,17 +51,11 @@ in
   };
   boot.loader.grub.devices = lib.mkIf (!isWSL) [ "/dev/sda" ];
 
-  nix.settings = {
-    substituters = [
-      "https://mirrors.ustc.edu.cn/nix-channels/store"
-      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
-      "https://nix-community.cachix.org"
-      "https://miyakomeow.cachix.org"
-    ];
-    trusted-public-keys = [
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "miyakomeow.cachix.org-1:85k7pjjK1Voo+kMHJx8w3nT1rlBow3+4/M+LsAuMCRY="
-    ];
+  nix.settings = let
+    subs = (builtins.fromTOML (builtins.readFile ./substituters.toml)).substituters;
+  in {
+    substituters = map (s: s.url) subs;
+    trusted-public-keys = map (s: s.public-key) (builtins.filter (s: s ? public-key) subs);
     # Use Flake & Nix Commands
     experimental-features = [
       "nix-command"
