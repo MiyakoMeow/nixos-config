@@ -138,6 +138,7 @@ in
 
       # AI Agent Cli
       opencode
+      pi-coding-agent
 
       # AI工具插件
       rtk
