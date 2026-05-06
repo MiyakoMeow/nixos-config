@@ -6,6 +6,7 @@
     gopls # Go 官方语言服务器（VSCode 插件依赖）
     delve # Go 调试工具
     go-tools # 静态分析工具集（golint 等）
+    wails # Go 桌面应用框架（WebView 绑定）
   ];
 
   # 环境变量配置
